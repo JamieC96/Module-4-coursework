@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, redirect, url_for, render_template, session
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import desc, or_
 
 app= Flask(__name__, template_folder='templates')
 
