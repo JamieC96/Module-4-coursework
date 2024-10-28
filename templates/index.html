@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Login Page</title>   
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../../static/stylesheets/css.css">
+
+</head>
+<body>
+    <div class="maincontainer">
+        <h1>Login</h1>
+    <div class="formcontainer">
+    <form id="login-form" action="/login" method="POST">
+        <div class="inputconfig">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+        {% if login_error %}
+            <div class="error-message">{{ login_error }}</div>
+        {% endif %}
+    </div>
+    </div>
+    </form>
+
+    <h1>Sign Up</h1>
+    <div class="formcontainer">
+    <form id="signup-form" action="/signup" method="POST">
+        <div class="inputconfig">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Sign Up</button>
+        {% if signup_error %}
+            <div class="error-message">{{ signup_error }}</div>
+        {% elif signup_success %}
+            <div class="success-message">{{ signup_success }}</div>
+        {% endif %}
+    </div>
+    </div>
+    </form>
+    </div>
+    </div>
+</body>
+</html>

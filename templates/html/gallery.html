@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Gallery</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="../../static/stylesheets/css.css">
+<script defer src="../../static/js/gallery.js"></script>
+</head>
+
+<body>
+    <div class="maincontainer">
+        <div class="navbar">
+            <img class="logoimg" src="../static/images/logo.png" alt="Logo">
+            <a href={{ url_for("home")}}>Home</a>
+            <a href={{ url_for("basicinfo")}} >Basic Info</a>
+            <a href={{ url_for("keepingaxolotls")}}>Keeping Axolotls</a>
+            <a href={{ url_for("inthewild")}}>In The Wild</a>
+            <a href={{ url_for("gallery")}} class="active">Gallery</a>
+            <a href={{ url_for("survey")}}>Survey</a>
+            <a href={{ url_for("contact")}}>Contact</a>
+        </div>
+    <Div class="main">
+            <H1>Gallery</H1>
+    
+            <div class="imgwrapper" id="wrapper">
+                <img  src="../../static/images/gallery/image1.png" id="fullimg">
+                <span>X</span>
+    
+            </div> 
+        
+            <div class="img-gl">
+                <img src="../../static/images/gallery/image1.png"> 
+                <img src="../../static/images/gallery/image2.png">
+                <img src="../../static/images/gallery/image3.png">
+                <img src="../../static/images/gallery/image4.png">
+                <img src="../../static/images/gallery/image5.png">
+                <img src="../../static/images/gallery/image6.png">
+            </div>
+        </div>    
+        </div>
+    </div>  
+    </div>  
+</body>
+</html>

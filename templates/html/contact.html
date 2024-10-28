@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Contact</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="../../static/stylesheets/css.css">
+<script defer src="../../static/js/contact.js"></script>
+</head>
+
+<body>
+    <div class="maincontainer">
+        <div class="navbar">
+            <img class="logoimg" src="../static/images/logo.png" alt="Logo">
+            <a href={{ url_for("home")}}>Home</a>
+            <a href={{ url_for("basicinfo")}} >Basic Info</a>
+            <a href={{ url_for("keepingaxolotls")}} >Keeping Axolotls</a>
+            <a href={{ url_for("inthewild")}}>In The Wild</a>
+            <a href={{ url_for("gallery")}}>Gallery</a>
+            <a href={{ url_for("survey")}}>Survey</a>
+            <a href={{ url_for("contact")}} class="active">Contact</a>
+        </div>
+    <Div class="main">
+            <H1>Contact</H1>
+            <h2>Interested in collaborating? Reach out to me through the below contact form!</h2>
+            <div class="formcontainer">
+            <form id="form" novalidate action="https://api.web3forms.com/submit" method="POST">
+                <div class="inputconfig">
+                <input type="hidden" name="access_key" value="a5e42f14-1d6f-4aa5-8391-cb3d3d2e2902">
+                <input type="text" id="named" name="name" placeholder="Name" class="contact-inputs" required>
+                <span id="named_error"></spanid></span>
+                <br>
+                <input type="text" id="number" name="number" placeholder="Number" class="contact-inputs" required>
+                <span id="number_error"></spanid></span>
+                <br>
+                <input type="text" id="email" name="Email" placeholder="Email" class="contact-inputs" required>
+                <span id="email_error"></spanid></span>
+                <br>
+                <textarea rows="5" placeholder="Message (optional but a brief summary of what you want to discuss is nice!)" name="message" class="contact-inputs"></textarea>
+                </div>
+                <button type="submit">Send message!</button>
+            </form>
+            </div>
+    </div>  
+    </div>  
+</body>
+</html>
