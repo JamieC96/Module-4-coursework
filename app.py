@@ -11,10 +11,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
 class Survey(db.Model):
     __tablename__ = 'survey'
     id = db.Column(db.Integer, primary_key=True)
@@ -29,6 +25,8 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(50), nullable=False)
 
+with app.app_context():
+    db.create_all()
 
 @app.route("/")
 def index():
