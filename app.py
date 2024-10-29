@@ -86,11 +86,9 @@ def signup():
     username = request.form['username']
     password = request.form['password']
 
-    # Check if username already exists
     if User.query.filter_by(username=username).first():
         return render_template('index.html', signup_error='Username already exists! Try another one.', login_error=None)
 
-    # Create new user and add to the database
     new_user = User(username=username, password=password)
     db.session.add(new_user)
     db.session.commit()
@@ -102,13 +100,11 @@ def login():
     username = request.form['username']
     password = request.form['password']
 
-    # Check if user exists and password matches
     user = User.query.filter_by(username=username, password=password).first()
     if user:
         session['username'] = username
         return redirect(url_for('home'))
     else:
-        # Pass an error message if login fails
         return render_template('index.html', login_error='Invalid credentials. Please try again.', signup_error=None)
 
 @app.route('/home')
