@@ -148,7 +148,7 @@ def change_password():
 
         return render_template('change_password.html', success='Password changed successfully.')
 
-    return render_template('change_password.html')
+    return render_template('html/change_password.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
