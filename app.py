@@ -1,8 +1,9 @@
 import os
 from flask import Flask, request, redirect, url_for, render_template, session
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
-app= Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='templates')
 
 app.secret_key = 'cheese'
 
@@ -23,7 +24,7 @@ class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(200), nullable=False)  # Increased length for hashed passwords
 
 with app.app_context():
     db.create_all()
@@ -56,14 +57,9 @@ def survey():
 def contact():
     return render_template("html/contact.html")
 
-@app.route("/user")
-def contact():
-    return render_template("html/user.html")
-
 @app.route('/submit', methods=['POST'])
 def submit():
     try:
-    
         owns = request.form.get('owns_axolotl') == 'on'  
         age = request.form.get('age', type=int)  
         gender = request.form.get('gender')  
@@ -93,7 +89,8 @@ def signup():
     if User.query.filter_by(username=username).first():
         return render_template('index.html', signup_error='Username already exists! Try another one.', login_error=None)
 
-    new_user = User(username=username, password=password)
+    hashed_password = generate_password_hash(password)  # Hash the password
+    new_user = User(username=username, password=hashed_password)
     db.session.add(new_user)
     db.session.commit()
 
@@ -104,8 +101,8 @@ def login():
     username = request.form['username']
     password = request.form['password']
 
-    user = User.query.filter_by(username=username, password=password).first()
-    if user:
+    user = User.query.filter_by(username=username).first()
+    if user and check_password_hash(user.password, password):  # Verify password
         session['username'] = username
         return redirect(url_for('home'))
     else:
@@ -122,6 +119,36 @@ def home():
 def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
+
+@app.route('/change_password', methods=['GET', 'POST'])
+def change_password():
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Ensure user is logged in
+
+    if request.method == 'POST':
+        current_password = request.form['current_password']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        user = User.query.filter_by(username=session['username']).first()
+        if not user:
+            return "User not found.", 404
+
+        # Verify current password
+        if not check_password_hash(user.password, current_password):
+            return render_template('change_password.html', error='Current password is incorrect.')
+
+        # Check if new passwords match
+        if new_password != confirm_password:
+            return render_template('change_password.html', error='New passwords do not match.')
+
+        # Hash and update the new password
+        user.password = generate_password_hash(new_password)
+        db.session.commit()
+
+        return render_template('change_password.html', success='Password changed successfully.')
+
+    return render_template('change_password.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
