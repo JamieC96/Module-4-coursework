@@ -6,7 +6,7 @@ app= Flask(__name__, template_folder='templates')
 
 app.secret_key = 'cheese'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://admin:O9TXTq5c31xclcOhBob1mDrPqyn4dvU5@dpg-csfsnktsvqrc739r60kg-a/axolotl_ya4x"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://admin:admin@localhost:5432/axolotl"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -55,6 +55,10 @@ def survey():
 @app.route("/contact")
 def contact():
     return render_template("html/contact.html")
+
+@app.route("/user")
+def contact():
+    return render_template("html/user.html")
 
 @app.route('/submit', methods=['POST'])
 def submit():
