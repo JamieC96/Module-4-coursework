@@ -1,10 +1,12 @@
+import os
 from flask import Flask, request, redirect, url_for, render_template, session
 from flask_sqlalchemy import SQLAlchemy
 
 app= Flask(__name__, template_folder='templates')
+
 app.secret_key = 'cheese'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin@localhost:5432/axolotl'
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://admin:O9TXTq5c31xclcOhBob1mDrPqyn4dvU5@dpg-csfsnktsvqrc739r60kg-a/axolotl_ya4x"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -23,6 +25,8 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(50), nullable=False)
 
+with app.app_context():
+    db.create_all()
 
 @app.route("/")
 def index():
@@ -82,11 +86,9 @@ def signup():
     username = request.form['username']
     password = request.form['password']
 
-    # Check if username already exists
     if User.query.filter_by(username=username).first():
         return render_template('index.html', signup_error='Username already exists! Try another one.', login_error=None)
 
-    # Create new user and add to the database
     new_user = User(username=username, password=password)
     db.session.add(new_user)
     db.session.commit()
@@ -98,13 +100,11 @@ def login():
     username = request.form['username']
     password = request.form['password']
 
-    # Check if user exists and password matches
     user = User.query.filter_by(username=username, password=password).first()
     if user:
         session['username'] = username
         return redirect(url_for('home'))
     else:
-        # Pass an error message if login fails
         return render_template('index.html', login_error='Invalid credentials. Please try again.', signup_error=None)
 
 @app.route('/home')
