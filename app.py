@@ -136,17 +136,17 @@ def change_password():
 
         # Verify current password
         if not check_password_hash(user.password, current_password):
-            return render_template('change_password.html', error='Current password is incorrect.')
+            return render_template('html/change_password.html', error='Current password is incorrect.')
 
         # Check if new passwords match
         if new_password != confirm_password:
-            return render_template('change_password.html', error='New passwords do not match.')
+            return render_template('html/change_password.html', error='New passwords do not match.')
 
         # Hash and update the new password
         user.password = generate_password_hash(new_password)
         db.session.commit()
 
-        return render_template('change_password.html', success='Password changed successfully.')
+        return render_template('html/change_password.html', success='Password changed successfully.')
 
     return render_template('html/change_password.html')
 
