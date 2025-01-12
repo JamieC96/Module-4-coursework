@@ -7,11 +7,13 @@ app = Flask(__name__, template_folder='templates')
 
 app.secret_key = 'cheese'
 
+# Database configuration for connecting to PostgreSQL
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://module4db_0zag_user:95sfrFjkZIqTiDthVA5JzH09eJi6ZUrD@dpg-cu20mclsvqrc73f17iag-a/module4db_0zag"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+# Defining a model for storing survey data
 class Survey(db.Model):
     __tablename__ = 'survey'
     id = db.Column(db.Integer, primary_key=True)
@@ -20,15 +22,18 @@ class Survey(db.Model):
     gender = db.Column(db.String(10), nullable=True)
     name = db.Column(db.String(80), nullable=True)
 
+# Defining a model for storing user data
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)  # Increased length for hashed passwords
 
+# Create all tables in the database if they don't already exist
 with app.app_context():
     db.create_all()
 
+# App routes for different pages in my app
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -57,6 +62,7 @@ def survey():
 def contact():
     return render_template("html/contact.html")
 
+# Route for handling survey form submissions
 @app.route('/submit', methods=['POST'])
 def submit():
     try:
@@ -80,7 +86,8 @@ def submit():
     except Exception as e:
         print(f"An error occurred: {e}")
         return "An error occurred while processing your request.", 500
-    
+
+# Route for handling user signup
 @app.route('/signup', methods=['POST'])
 def signup():
     username = request.form['username']
@@ -96,6 +103,7 @@ def signup():
 
     return render_template('index.html', login_error=None, signup_success='Account created successfully! Please log in.')
 
+# Route for handling user login
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
@@ -120,6 +128,7 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
+# Route for handling password changes
 @app.route('/change_password', methods=['GET', 'POST'])
 def change_password():
     if 'username' not in session:
