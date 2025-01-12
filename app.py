@@ -6,7 +6,7 @@ app= Flask(__name__, template_folder='templates')
 
 app.secret_key = 'cheese'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://admin:admin@localhost:5432/axolotl"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://module4db_user:54yLjVIIVu56rvivgEtTn8tfM51YMu8k@dpg-cu20843tq21c73bls2l0-a/module4db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
